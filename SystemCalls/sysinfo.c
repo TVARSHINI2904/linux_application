@@ -12,10 +12,20 @@ int main() {
 	struct sysinfo si;
 	
 	//TODO 1: Get the system info using sysinfo system call
+        sysinfo(&si);
+
 
 	//TODO 2: Print the total up time
+        printf("total up time : %ld\n",si.uptime);
+	
 	//TODO 3: Print the total RAM in MB
-	//TODO 4: Print the Free Ram 
+	printf("total RAM in MB : %lu\n",si.totalram/(1024*1024));
+
+	//TODO 4: Print the Free Ram
+	printf("Free Ram : %lu\n",si.freeram/(1024*1024));
+ 
 	//TODO 5: Print the process count 
+	printf("process count : %u\n",si.procs);
+
 	return 0;
 }
