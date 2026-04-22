@@ -29,35 +29,18 @@ int main(int argc, char* argv[])
 	//Entire file
 	// Initialize lock structure
        memset(&lock, 0, sizeof(lock));
-       lock.l_type = F_WRLCK;   // Write lock
+       lock.l_type = F_RDLCK;   // Write lock
        lock.l_whence = SEEK_SET; // From beginning
        lock.l_start = 0;         // Start of file
        lock.l_len = 0;           // 0 means lock entire file
 
 
 	//TODO: Invoke fcntl to lock the file
-   	  // Apply lock
-       
-      while (1) {
-    // Check lock status
-    fcntl(fd, F_GETLK, &lock);
-
-    if (lock.l_type == F_UNLCK) {
-        printf("Lock is available, acquiring...\n");
-
-        // Try to acquire lock
-        lock.l_type = F_WRLCK;
-        if (fcntl(fd, F_SETLK, &lock) == 0) {
-            printf("Lock acquired!\n");
-            break;
+	  // Apply lock
+       if (fcntl(fd, F_SETLK, &lock) == -1) {
+        perror("fcntl lock");
+        return 1;
         }
-    } else {
-        printf("Locked by another process, retrying...\n");
-        sleep(5);
-    }
-    }    
-
-
 
 	printf("Done. Hit <Enter> to unlock ...\n");
 	getchar();
