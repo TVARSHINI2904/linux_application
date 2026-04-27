@@ -8,11 +8,15 @@
 
 int main()
 {
-	printf("Before exec my id is %d\n", getpid());
-	printf("My Parent process's id is %d\n", getppid());
+       printf("Before exec my id is %d\n", getpid());
+    printf("My Parent process's id is %d\n", getppid());
 
-	printf("exec starts\n");
-	//TODO 1: Execute exec_overlay with execl function 
-	printf("This won't print\n");
+    printf("exec starts\n");
+
+    execl("./exec_overlay","exec_overlay",NULL);
+
+    perror("exec failed");   // only runs if exec fails
+    printf("This won't print\n");
+
 	return 0;
 }

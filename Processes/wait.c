@@ -8,17 +8,41 @@ int main()
 {
     int status, i;
 
-    if (fork() == 0)
+         pid_t pid1, pid2;
+
+    // First child
+    pid1 = fork();
+    if (pid1 == 0)
     {
-        for (i = 0; i < 20; i++)
-        {
+        for (int i = 0; i < 5; i++)
             sleep(1);
-        }
+
+        printf("From first child\n");
+        exit(1);
     }
-    else
+
+    // Second child
+    pid2 = fork();
+    if (pid2 == 0)
     {
-        // TODO 1: Wait for the child process termination
-        // TODO 2: Print the exit code, if process exited normally
+        for (int i = 0; i < 10; i++)
+            sleep(1);
+
+        printf("From second child\n");
+        exit(2);
     }
+
+    // Parent process
+    printf("Parent waiting for second child only...\n");
+
+    // Wait for ONLY second child
+    waitpid(pid2, &status, 0);
+
+    if (WIFEXITED(status))
+    {
+        printf("Second child exited with code = %d\n",
+               WEXITSTATUS(status));
+    }
+
     return 0;
 }
