@@ -24,6 +24,9 @@ int main()
 	if (fork()) // Parent
 	{
 		/* Do some lengthy stuff here. */
+		for(i=0;i<3;i++){
+		   printf("waiting\n");
+		}
 		printf("In the parent.\n");
 		for(i = 0; i < 10; i++)
 		{
@@ -33,7 +36,7 @@ int main()
 	}
 	else // Child
 	{
-		sleep(2);
+		sleep(5);
 		kill(getppid(), SIGUSR1);
 		printf("In a child.\n");
 	}
